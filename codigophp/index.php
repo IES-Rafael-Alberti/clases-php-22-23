@@ -15,6 +15,13 @@ try {
 }
 
 $usuarios = $conn->query("Select * from usuario");
+$usuarios_assoc = $usuarios->fetchAll(PDO::FETCH_ASSOC);
+foreach($usuarios_assoc as $usuario) {
+    print($usuario->nombre);
+    print("<br>");
+}
+
+// Opción 
 while($usuario = $usuarios->fetchObject()) {
     print($usuario->nombre);
     print("<br>");
