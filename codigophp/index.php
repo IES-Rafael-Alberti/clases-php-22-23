@@ -16,13 +16,18 @@ try {
 
 $usuarios = $conn->query("Select * from usuario");
 $usuarios_assoc = $usuarios->fetchAll(PDO::FETCH_ASSOC);
-foreach($usuarios_assoc as $usuario) {
-    print($usuario->nombre);
+print_r($usuarios_assoc);
+print("<br>");
+foreach($usuarios_assoc as $user) {
+    print($user["nombre"]);
     print("<br>");
 }
 
+$mascotas = $conn->query("Select * from mascota");
+
+
 // Opción 
-while($usuario = $usuarios->fetchObject()) {
-    print($usuario->nombre);
+while($mascota = $mascotas->fetchObject()) {
+    print($mascota->nombre);
     print("<br>");
 }
