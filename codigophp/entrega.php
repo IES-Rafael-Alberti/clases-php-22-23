@@ -21,14 +21,21 @@ if(isset($_POST['nombre'])) {
 
     file_put_contents("fotos/$foto", file_get_contents($_FILES["foto"]["tmp_name"]));
 
-    $sql = "INSERT INTO usuario (nombre, edad, foto) values ('$nombre', $edad, '$foto')";
-    if($conn->exec($sql) != 1) {
+    // inyectable
+    //$sql = "INSERT INTO usuario (nombre, edad, foto) values ('$nombre', $edad, '$foto')";
+    $sql = "INSERT INTO usuario (nombre, edad, foto) values (:nombre, :edad, :foto)";
+    $datos = array("nombre" => $nombre,
+                   "edad" => $edad,
+                   "foto" => $foto
+                  );
+    $stmt = $conn->prepare($sql);
+    if($stmt->execute($datos) != 1) {
         print("No se pudo dar de alta");
         exit(0);
     }
     
-    print_r($_POST);
-    print_r($_FILES);
+    //print_r($_POST);
+    //print_r($_FILES);
     //file_put_contents("fotos/perroooo", file_get_contents($_FILES["foto"]["tmp_name"]));
     
     print("<br><img src='/fotos/$foto'><br>");
