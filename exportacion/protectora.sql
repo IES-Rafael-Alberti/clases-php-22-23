@@ -2,8 +2,8 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: DB
--- Generation Time: Oct 03, 2022 at 11:25 AM
+-- Host: db
+-- Generation Time: Oct 11, 2022 at 11:19 AM
 -- Server version: 10.9.2-MariaDB-1:10.9.2+maria~ubu2204
 -- PHP Version: 8.0.23
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `protectora`
 --
+CREATE DATABASE IF NOT EXISTS `protectora` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `protectora`;
 
 -- --------------------------------------------------------
 
@@ -27,6 +29,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `mascota`
 --
 
+DROP TABLE IF EXISTS `mascota`;
 CREATE TABLE `mascota` (
   `id` int(11) NOT NULL,
   `nombre` varchar(40) NOT NULL,
@@ -50,18 +53,21 @@ INSERT INTO `mascota` (`id`, `nombre`, `id_usuario`) VALUES
 -- Table structure for table `usuario`
 --
 
+DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE `usuario` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(40) NOT NULL
+  `nombre` varchar(40) NOT NULL,
+  `edad` int(11) NOT NULL DEFAULT 0,
+  `foto` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nombre`) VALUES
-(1, 'Maria'),
-(2, 'Juan');
+INSERT INTO `usuario` (`id`, `nombre`, `edad`, `foto`) VALUES
+(1, 'Maria', 0, ''),
+(2, 'Juan', 0, '');
 
 --
 -- Indexes for dumped tables

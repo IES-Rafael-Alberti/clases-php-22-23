@@ -1,11 +1,38 @@
 <?php
 if(isset($_POST['nombre'])) {
+    $servidor="db"; // porque es el nombre asociado en docker-compose
+    $usuario="protectora";
+    $clave= "pestillo";
+    $bd="protectora";
+    try {
+        // mysql es el gestor de Base de datos
+        $conn = new PDO("mysql:host=$servidor;dbname=$bd", $usuario, $clave);
+        // Establece los atributos de los reportes de errores
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //echo "Conexión satisfactoria";
+    } catch(PDOException $e) {
+        echo ( "Error de conexión: " . $e->getMessage());
+        exit(0);
+    }
+
+    $nombre = $_POST["nombre"];
+    $edad = $_POST["edad"];
+    $foto = $_FILES["foto"]["name"];
+
+    file_put_contents("fotos/$foto", file_get_contents($_FILES["foto"]["tmp_name"]));
+
+    $sql = "INSERT INTO usuario (nombre, edad, foto) values ('$nombre', $edad, '$foto')";
+    if($conn->exec($sql) != 1) {
+        print("No se pudo dar de alta");
+        exit(0);
+    }
+    
     print_r($_POST);
     print_r($_FILES);
-    file_put_contents("fotos/perroooo", file_get_contents($_FILES["foto"]["tmp_name"]));
-    ?>
-    <br><img src="/fotos/perroooo"><br>
-    <?php
+    //file_put_contents("fotos/perroooo", file_get_contents($_FILES["foto"]["tmp_name"]));
+    
+    print("<br><img src='/fotos/$foto'><br>");
+    
     exit(0);
 }
 ?>
