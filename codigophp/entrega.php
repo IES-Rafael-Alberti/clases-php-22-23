@@ -11,20 +11,27 @@ if(isset($_POST['nombre'])) {
 
     require("conecta.php");
 
+    // recupera los datos del formulario
     $nombre = $_POST["nombre"];
     $edad = $_POST["edad"];
     $foto = $_FILES["foto"]["name"];
 
+    // copia el archivo temporal en fotos con su nombre original
     file_put_contents("fotos/$foto", file_get_contents($_FILES["foto"]["tmp_name"]));
 
     // inyectable
     //$sql = "INSERT INTO usuario (nombre, edad, foto) values ('$nombre', $edad, '$foto')";
+    
+    // prepara la sentencia SQL. Le doy un nombre a cada dato del formulario 
     $sql = "INSERT INTO usuario (nombre, edad, foto) values (:nombre, :edad, :foto)";
+    // asocia valores a esos nombres
     $datos = array("nombre" => $nombre,
                    "edad" => $edad,
                    "foto" => $foto
                   );
+    // comprueba que la sentencia SQL preparada está bien 
     $stmt = $conn->prepare($sql);
+    // ejecuta la sentencia usando los valores
     if($stmt->execute($datos) != 1) {
         print("No se pudo dar de alta");
         exit(0);
@@ -34,6 +41,7 @@ if(isset($_POST['nombre'])) {
     //print_r($_FILES);
     //file_put_contents("fotos/perroooo", file_get_contents($_FILES["foto"]["tmp_name"]));
     
+    // muestra la foto usando HTML
     print("<br><img src='/fotos/$foto'><br>");
     
     exit(0);
