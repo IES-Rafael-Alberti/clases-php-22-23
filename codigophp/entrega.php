@@ -2,27 +2,14 @@
 if(isset($_POST['nombre'])) {
     //print_r($_FILES);
     // Recorrer subida de archivos múltiple
-    $fotos = $_FILES['fotos'];
-    for($i=0; $i < sizeof($fotos["name"]); $i++) {
-        print_r($fotos["name"][$i] . " -> " . $fotos["tmp_name"][$i]);
-        print_r("<br>");
-    }
-    exit(0);
+    // $fotos = $_FILES['fotos'];
+    // for($i=0; $i < sizeof($fotos["name"]); $i++) {
+    //     print_r($fotos["name"][$i] . " -> " . $fotos["tmp_name"][$i]);
+    //     print_r("<br>");
+    // }
+    // exit(0);
 
-    $servidor="db"; // porque es el nombre asociado en docker-compose
-    $usuario="protectora";
-    $clave= "pestillo";
-    $bd="protectora";
-    try {
-        // mysql es el gestor de Base de datos
-        $conn = new PDO("mysql:host=$servidor;dbname=$bd", $usuario, $clave);
-        // Establece los atributos de los reportes de errores
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //echo "Conexión satisfactoria";
-    } catch(PDOException $e) {
-        echo ( "Error de conexión: " . $e->getMessage());
-        exit(0);
-    }
+    require("conecta.php");
 
     $nombre = $_POST["nombre"];
     $edad = $_POST["edad"];
@@ -68,7 +55,10 @@ if(isset($_POST['nombre'])) {
     <label for="edad">Edad: </label>
     <input type="text" name="edad" id="edad">
     <label for="foto">Foto: </label>
+    <!-- Subida múltiple de archivos
     <input type="file" name="fotos[]" id="foto" multiple>
+    -->
+    <input type="file" name="foto" id="foto">
     <input type="submit" value="Enviar">
 </form>    
 </body>
