@@ -1,5 +1,14 @@
 <?php
 if(isset($_POST['nombre'])) {
+    //print_r($_FILES);
+    // Recorrer subida de archivos múltiple
+    $fotos = $_FILES['fotos'];
+    for($i=0; $i < sizeof($fotos["name"]); $i++) {
+        print_r($fotos["name"][$i] . " -> " . $fotos["tmp_name"][$i]);
+        print_r("<br>");
+    }
+    exit(0);
+
     $servidor="db"; // porque es el nombre asociado en docker-compose
     $usuario="protectora";
     $clave= "pestillo";
@@ -59,7 +68,7 @@ if(isset($_POST['nombre'])) {
     <label for="edad">Edad: </label>
     <input type="text" name="edad" id="edad">
     <label for="foto">Foto: </label>
-    <input type="file" name="foto" id="foto">
+    <input type="file" name="fotos[]" id="foto" multiple>
     <input type="submit" value="Enviar">
 </form>    
 </body>
