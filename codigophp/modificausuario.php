@@ -36,7 +36,7 @@ if(isset($_POST['nombre'])) {
         exit(0);
     }
     
-    print("Se ha actualizado el usuario");
+    header("Location: index.php");
     exit(0);
 }
 
