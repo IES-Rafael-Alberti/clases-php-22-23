@@ -1,0 +1,54 @@
+<section>
+    <section data-markdown>
+        ## Protocolo HTTP
+
+        Documentos:   
+        ![left](images/pdf.png) [Desarrollo Web](https://github.com/IES-Rafael-Alberti/clases-php-22-23/blob/main/docs/1a%20http.pdf)  
+        ![left](images/pdf.png) [Protocolo HTTP](https://github.com/IES-Rafael-Alberti/clases-php-22-23/blob/main/docs/desarrollo%20web.pdf)  
+
+        Enlaces de interés:  
+        ![left](images/link.png) [SSL y TSL para desarrolladores](https://dev.to/tiangolo/https-for-developers-1774)  
+    </section>
+    <!--
+        Bloques de diapositivas
+    -->
+    <section data-markdown>
+        # Desarrollo web
+        - Petición
+        - Recepción
+        - Procesamiento
+        - Resultado
+    </section>
+    <section data-markdown>
+        # Petición
+        - Todo comienza con una petición desde un navegador web.
+        - Esa petición se caracteriza por una url.
+        - La url se divide en protocolo (http://), servidor (localhost) y ruta (/clientes/registro).
+        - El servidor apunta a la máquina que tiene el servidor web (o proxy web).
+        - En el entorno de desarrollo el servidor es un contenedor docker.
+        - Este contenedor ejecuta nginx y acepta peticiones http.
+    </section>
+    <section data-markdown>
+        # Recepción
+        - El servidor recibe una petición http (request)
+        - En la petición se recibe toda la información externa
+        - La información puede venir en varios formatos
+        - Normalmente el servidor activa script determinado por la ruta
+        - Ese script recibe la petición completa
+    </section>
+    <section data-markdown>
+        # Procesado
+        - El script es ejecutado por el intérprete php en el servidor, generando html
+        - Php es un lenguaje embebido en html, como asp .NET o jsp (en desuso)
+        - Cada script se ejecuta de forma aislada, no pueden compartir variables
+        - Se usan motores de bases de datos para persistencia
+    </section>
+    <section data-markdown>
+        # Resultado
+        - El resultado siempre es una respuesta http (response)
+        - Se reparte la información entre encabezado y cuerpo
+        - Lo usual es que contenga html, pero no es obligatorio
+        - La respuesta incluye un código de estado
+        - Los códigos de estado están prefijados por el protocolo http
+    </section>
+</section>

@@ -18,4 +18,4 @@ if($stmt->execute() != 1) {
     exit(0);
 }
 
-print("Mensaje de borrado correcto un poco cutre...");
+header("Location: index.php");

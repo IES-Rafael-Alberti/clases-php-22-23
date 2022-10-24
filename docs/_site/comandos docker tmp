@@ -1,0 +1,25 @@
+Poner en marcha un contenedor de la imagen:
+docker run -dit --name contenedor imagen 
+
+Visualizar contenedores en ejecución:
+docker ps
+
+Información del sistema:
+docker system info
+
+Limpieza del sistema (elimina imágenes descargadas sin contenedor asociado):
+docker system prune
+
+Para todos los contenedores en ejecución:
+docker stop $(docker ps -q)
+
+Ejecuta comando dentro del sistema linux del contenedor:
+docker exec -it contenedor comando
+
+Ejemplos:
+
+Visualizar log de ejecución php:
+docker exec -it contenedor cat /var/log/nginx/error.log
+
+Comprobar un codigo php:
+docker exec -it contenedor php path_archivo_php

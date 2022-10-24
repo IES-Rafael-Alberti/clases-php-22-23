@@ -1,0 +1,7 @@
+table {
+    padding-bottom: 2rem;
+}
+
+table tr:nth-child(even) {
+    background-color: rgba(158, 239, 245, 0.498);
+}

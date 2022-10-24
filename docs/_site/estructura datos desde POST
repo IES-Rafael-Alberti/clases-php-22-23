@@ -1,0 +1,17 @@
+POST
+Array ( 
+    [nombre] => Ana
+    [edad] => 34
+)
+FILE 
+Array ( 
+    [foto] => 
+    Array ( 
+        [name] => doble de joker.jpeg 
+        [full_path] => doble de joker.jpeg 
+        [type] => image/jpeg 
+        [tmp_name] => /tmp/phpiP5PrI 
+        [error] => 0 
+        [size] => 33721 
+    ) 
+) 

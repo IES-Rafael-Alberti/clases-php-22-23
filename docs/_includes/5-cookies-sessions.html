@@ -1,0 +1,134 @@
+<section>
+	<section data-markdown>
+		# Cookies y Sesiones  
+	
+		Vídeos:   
+		![left][video] [What is a cookie? (English)](https://www.youtube.com/watch?v=I01XMRo2ESg)  
+		![left][video] [Cookie tracking (English)](https://www.youtube.com/watch?v=QWw7Wd2gUJk)   
+[video]: images/youtube.png "Vídeo de youtube"
+	</section>
+	<!--
+        Bloques de diapositivas
+	-->
+	<section data-markdown>
+		## Las Cookies
+		- Entender qué son y cómo funcionan es indispensable para comprender el funcionamiento de las aplicaciones web.  
+		- Estos conceptos tradicionales aplican para todas las páginas y navegadores web.  
+		- Son independientemente del lenguaje de programación usado en el lado del servidor (backend).  
+		- Cada vez que visitamos una página, un servidor es el encargado de responder nuestra petición.  
+		- Cada solicitud que realizamos y la respuesta que recibimos, son totalmente independientes por naturaleza.  
+		- Sin embargo, el uso de Cookies hace posible la existencia de un estado entre las distintas peticiones que vamos realizando.  
+		- Es decir, las peticiones HTTP carecen de estado (stateless), pero si se apoyan en el uso de Cookies pueden tener uno (statefull) con ello modificar lo que los visitantes ven, en función a sus cookies guardadas.  
+	</section>
+	<section data-markdown>
+		## Anatomía de las Cookies  
+		- Son archivos de texto que se guardan en el cliente con la intención de recordar las preferencias de un visitante sobre una página determinada.  
+		- Sin Cookies (y sin ningún otro mecanismo de persistencia de datos), las peticiones serían todas iguales, por tanto cada visita se consideraría siempre como la primera visita que se hace.  
+		- En el uso de Cookies podemos identificar 3 pasos:  
+		    1. El servidor envía un conjunto de datos en forma de Cookies al navegador web.  
+    		2. El navegador guarda esta información de forma local.  
+		    3. Cada vez que se realice una petición al servidor, el navegador enviará también la información almacenada en Cookies.  
+		- Las Cookies se registran a través de un "HTTP header" que devuelve el servidor.
+(Desde Javascript también se pueden crear cookies)
+	</section>
+	<section data-markdown>
+		### Ejemplo (I)
+		- Por ejemplo, un script PHP que quiere asignar una Cookie sobre nuestro navegador, deberá enviar unos headers como los siguientes:
+```
+HTTP/1.1 200 OK
+Date: Fri, 04 Feb 2000 21:03:38 GMT
+Server: Apache/1.3.9 (UNIX) PHP/4.0b3
+Set-Cookie: name=xyz; expires=Friday, 04-Feb-07 22:03:38 GMT; 
+                 path=/; domain=programacionymas.com
+Connection: close
+Content-Type: text/html
+```
+		- Como se puede ver, el header Set-Cookie contiene:
+		    1. un par clave-valor (name=xyz) 
+		    2. una fecha de caducidad 
+		    3. una ruta (o path) 
+		    4. y un dominio  
+	- Si el usuario visita una página que coincida con la ruta y dominio de la cookie, entonces el navegador enviará nuevamente esta información al servidor.  
+	</section>
+	<section data-markdown>
+		### Ejemplo (Enviar valores al servidor)
+		- Los headers enviados por el navegador pueden presentarse de la siguiente forma:  
+```
+GET / HTTP/1.0
+Connection: Keep-Alive
+User-Agent: Mozilla/4.6 (X11; I; Linux 2.2.6-15apmac ppc)
+Host: zink.demon.co.uk:1126
+Accept: image/gif, */*
+Accept-Encoding: gzip
+Accept-Language: en
+Accept-Charset: iso-8859-1,*,utf-8
+Cookie: name=xyz
+```
+		- En PHP por ejemplo, se puede acceder al valor de la cookie name usando $_COOKIE["name"].
+	</section>
+	<section data-markdown>
+		## Sessions (I)
+		- Las cookies permiten a una aplicación web acceder a información desde cualquiera de las distintas páginas que presenta.  
+		- Las sessions de igual forma. Pero las cookies se guardan en el lado del cliente, y las sesiones, en el lado del servidor.  
+		- Veamos de forma más específica que ocurre en el caso de PHP (si no se ha alterado su comportamiento por defecto):  
+		    - Una session (al igual que una cookie) crea un archivo (donde se guardarán los datos).  
+		    - Sin embargo, en el caso de las sessions, los archivos se crean en una carpeta del servidor (allí se guardan las variables de sesión y sus valores correspondientes).  
+		    - La ubicación del archivo temporal se determina en el archivo de configuración php.ini, a través de una variable llamada session.save_path.  
+	</section>
+	<section data-markdown>
+		## Sessions (II)
+		- La definición de una sesión comprende los siguientes pasos:  
+		    1. PHP crea un identificador único (para cada session, de forma particular). Este identificador es una cadena aleatoria compuesta por 32 caracteres en hexadecimal (por ejemplo 3c7foj34c3jj973hjkop2fc937e3443).  
+		    2. Una cookie llamada PHPSESSID se envía automáticamente al cliente, para que guarde la cadena de identificación (antes generada). De esta forma el cliente queda asociado a la session.  
+		    3. Un archivo es creado en el servidor automáticamente, en la carpeta designada, y recibe como nombre el identificador pero con el prefijo sess_. Por ejemplo sess_3c7foj34c3jj973hjkop2fc937e3443.  
+	</section>
+	<section data-markdown>
+		## Sessions (III)
+		- Cuando un código de PHP quiere acceder al valor de una variable de sesión, PHP automáticamente obtiene el "identificador único de sesión" (que es la cadena de la que hablamos antes) desde la cookie PHPSESSID y luego busca en la carpeta designada el archivo asociado a este identificador.  
+		- Generalmente una sesión (session) termina cuando el usuario cierra completamente el navegador, o si abandona el sitio por un periodo de tiempo de determinado (usualmente tras 30 minutos).  
+		- Es importante tener en cuenta que también se puede sobreescribir este comportamiento.  
+		- En PHP, por ejemplo, podemos escribir nuestro propio gestor de sesiones. A esto se le conoce como Custom Session Handlers.  
+		- Esto significa que podemos escribir nuestra propia implementación y decirle a PHP cómo tratar las sesiones. Aquí por ejemplo se explica cómo guardar las sesiones en una base de datos, en vez de archivos.   
+	</section>
+	<section data-markdown>
+		## Recapitulando
+		1. Las peticiones HTTP son stateless por naturaleza. Esto significa que cada petición realizada es independiente, incluso si se realiza desde la misma computadora por una misma persona.
+		2. A fin de guardar datos con las preferencias de los visitantes se utilizan las cookies. Estas cookies se guardan en el navegador web de cada visitante (usualmente como petición del servidor, a través de un header llamado Set-Cookie).
+		3. Las cookies generalmente están limitadas por un tamaño máximo. Así mismo, están expuestas en el lado del cliente (las cookies son client-side).
+		4. Una solución ante esto último involucra tanto el uso de sesiones como el uso de cookies. Las sesiones se guardan en el servidor, pero se asocian a una cookie creada en el cliente (navegador web). Esta cookie permite al navegador web mostrar su identificación ante el servidor, y que este reconozca sus datos. 
+	</section>
+	<section data-markdown>
+		## Problemas de seguridad
+		- Este tema de cookies y sessions es muy interesante.   
+		- Pero asociado a esto, nos encontramos con que generalmente son un objetivo frecuente de ataque.  
+		- La mayoría de los ataques de sesión implican suplantación (el atacante intenta obtener acceso a la sesión de otro usuario haciéndose pasar por dicho usuario).  
+		- La información más crucial para un atacante es el identificador de sesión (necesario para cualquier ataque de suplantación).   
+		- Existen 3 métodos, que son utilizados comúnmente para obtener un identificador de sesión válido:
+		    1. Predicción (Prediction) 
+		    2. Captura (Capture) 
+		    3. Fijación (Fixation)  
+		- Veamos una breve descripción de cada uno de ellos.
+	</section>
+	<section data-markdown>
+		## Predicción
+		- El método de predicción consiste en "adivinar" un identificador de sesión válido.  
+		- A día de hoy, es poco probable que este sea un punto débil.  
+		- El mecanismo por defecto de PHP genera un identificador de sesión de forma "extremadamente" aleatoria (debido a la gran cantidad de valores posibles que puede adoptar la cadena generada).  
+	</section>
+	<section data-markdown>
+		## Captura
+		- La captura de un identificador de sesión válido es el método más común de ataque, y hay muchas formas de llevarlo a cabo.  
+		- Dado que los identificadores de sesión se propagan típicamente a través de cookies o variables GET, los diferentes enfoques se centran en atacar estos métodos de transferencia.  
+		- Siempre que las cookies están disponibles, se prefiere su uso como mecanismo para comunicar el identificador de sesión al cliente, en vez del uso de variables GET, que generalmente están más expuestas.  
+		- La mayoría de vulnerabilidades, asociadas a cookies, se han encontrado en Internet Explorer.  
+	</section>
+	<section data-markdown>
+		## Fijación
+		- La fijación es el método más simple para obtener un identificador de sesión válido.  
+		- No es muy difícil defenderse ante esta vulnerabilidad. Sin embargo, si usas PHP y tu mecanismo de sesión consiste únicamente en usar session_start(), eres vulnerable ante este ataque.  
+		- La mayoría de ataques por "fijación de sesión" consiste en ocasionar que el usuario realice una petición a un sitio externo.  
+		- Esto se puede lograr añadiendo un enlace, cargando una imagen (que ejecuta código por detrás) u ocasionando una redirección, por ejemplo.  
+		- La idea es que el usuario visite una URL con un identificador de sesión adjunto a esta URL.   
+		- Dado que el atacante escoge el identificador (al enviarlo al servidor), ya lo conoce de antemano. Por lo tanto puede llevar a cabo ataques de suplantación (secuestrando la sesión del usuario sin que este se entere).  
+	</section>
+</section>
